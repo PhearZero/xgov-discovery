@@ -1,6 +1,12 @@
 # Overview
 
-Voting with `goal` and `algod`
+Voting with `goal` and `algod` using `vote.sh`
+
+#### Dependencies:
+
+- [goal](https://developer.algorand.org/docs/clis/goal/goal/)
+- [jq](https://jqlang.github.io/jq/)
+
 
 ### Links:
 
