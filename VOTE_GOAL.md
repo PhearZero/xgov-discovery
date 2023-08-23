@@ -52,6 +52,6 @@ goal clerk rawsend -f VoteRoundSigned.txn
 #Transaction 37HM4GERZWSZBMNUKSTEFJU6JE6HKQQTDQU6IVAB3LWEAH2TWHCA committed in round 824634407864
 ```
 
-[app]:[https://app.dappflow.org/explorer/application/1158913461/transactions]
-[snapshot]:[https://api.voting.algorand.foundation/ipfs/bafkreieh77pgmvfexyxbnbexwu4n5x54kgdfop7lzfo26peyrjcwhn6uii]
-[questions]:[https://api.voting.algorand.foundation/ipfs/bafkreigjiien52ukmfqd5yrjgonrj6ixpr2rm32szps45ztpehk7z4lhli]
+[app]:https://app.dappflow.org/explorer/application/1158913461/transactions
+[snapshot]:https://api.voting.algorand.foundation/ipfs/bafkreieh77pgmvfexyxbnbexwu4n5x54kgdfop7lzfo26peyrjcwhn6uii
+[questions]:https://api.voting.algorand.foundation/ipfs/bafkreigjiien52ukmfqd5yrjgonrj6ixpr2rm32szps45ztpehk7z4lhli
