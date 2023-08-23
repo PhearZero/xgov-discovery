@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "algokit": "npx tsx algokit.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

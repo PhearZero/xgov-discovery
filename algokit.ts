@@ -1,6 +1,12 @@
 import 'dotenv/config'
 import appSpec from './VotingRoundApp/application.json' assert {type: 'json'}
 import * as algokit from '@algorandfoundation/algokit-utils'
+enum VoteType {
+    NO_SNAPSHOT = 0,
+    NO_WEIGHTING = 1,
+    WEIGHTING = 2,
+    PARTITIONED_WEIGHTING = 3,
+}
 
 const api = `https://api.voting.algorand.foundation/ipfs/`
 const algod = algokit.getAlgoClient()
