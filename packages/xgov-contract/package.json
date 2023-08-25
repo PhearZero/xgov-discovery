@@ -1,0 +1,36 @@
+{
+  "name": "@algorandfoundation/xgov-contract",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && tsc -p tsconfig.cjs.json && cp ./lib/cjs/index.js ./lib/index.cjs && rm -rf ./lib/cjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "application.json",
+    "approval.teal",
+    "clear.teal",
+    "contract.json"
+  ],
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "default": "./lib/index.js"
+    },
+    "./application.json": {
+      "import": "./application.json",
+      "require": "./application.json",
+      "default": "./application.json"
+    },
+    "./contract.json": {
+      "import": "./contract.json",
+      "require": "./contract.json",
+      "default": "./contract.json"
+    }
+  },
+  "author": "",
+  "license": "MIT"
+}
