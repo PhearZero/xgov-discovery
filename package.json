@@ -4,19 +4,14 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
+    "vote": "tsx ./bin/vote.ts",
     "algokit": "npx tsx algokit.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "UNLICENSED",
-  "dependencies": {
-    "@algorandfoundation/algokit-utils": "^2.3.2",
-    "algosdk": "^2.5.0",
-    "dotenv": "^16.3.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20.5.3",
-    "ts-node": "^10.9.1"
-  }
+  "license": "MIT"
 }
