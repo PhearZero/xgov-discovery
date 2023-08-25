@@ -4,6 +4,19 @@ set -e
 
 IPFS_API=https://api.voting.algorand.foundation/ipfs
 OUTPUT=VoteRound.txn
+BANNER=$(cat <<-EndOfMessage
+\033[0;32m         ________
+___  ___/  _____/  _______  __
+\  \/  /   \  ___ /  _ \  \/ /
+ >    <\    \_\  (  <_> )   /
+/__/\_ \\______  /\____/  \_/
+      \/       \/
+\033[1;33mAlgorand's Decentralized Voting App
+
+\033[0m
+EndOfMessage
+)
+printf "$BANNER"
 
 usage() {
   echo "Usage: $0 [flags]" 1>&2;
