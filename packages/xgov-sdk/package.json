@@ -1,0 +1,30 @@
+{
+  "name": "@algorandfoundation/xgov-sdk",
+  "version": "1.0.0",
+  "description": "AlgoSDK xGov CLI",
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "bin": {
+    "xgov-sdk": "./bin/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx index.ts",
+    "prestart": "npm run build",
+    "start": "node bin/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@algorandfoundation/xgov-contract": "^1.0.0",
+    "algosdk": "^2.5.0",
+    "commander": "^11.0.0",
+    "dotenv": "^16.3.1",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.4",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
+  }
+}
