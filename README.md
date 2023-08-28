@@ -15,8 +15,8 @@
     Get Started:
     <a href="https://xgov.algorand.foundation">xGov</a> |
     <a href="./packages/xgov-goal/README.md">Goal</a> |
-    <a href="">Kit</a> |
-    <a>SDK</a>
+    <a href="./packages/xgov-kit/README.md">Kit</a> |
+    <a href="./packages/xgov-sdk/README.md">SDK</a>
   </p>
 
 ## Overview 

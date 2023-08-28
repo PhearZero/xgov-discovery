@@ -40,41 +40,7 @@ const applications = await indexer.lookupAccountCreatedApplications(creatorAddre
 Voting Round's Global State
 
 ```javascript
-const ALGOD_SERVER = 'http://localhost'
-const ALGOD_PORT = 4001
-const ALGOD_TOKEN= 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-
-const appSpec = require('./<path_to_artifacts>/application.json')
-const algod = new algosdk.Algodv2(ALGOD_TOKEN, ALGOD_SERVER, ALGOD_TOKEN)
-
-// List of Voting Round Application IDs
-const applications = [1158913461]
-
-const buffC = fs.readFileSync("contract.json");
-const c1 = new algosdk.ABIContract( JSON.parse(buffC.toString()));
-
-// Account (can be any algosdk.Account)
-const voter = await algokit.getAccount(
-  { config: algokit.getAccountConfigFromEnvironment("VOTER"), fundWith: algokit.algos(3000) },
-  algod
-);
-
-// Algokit Clients, will use above wallet for all future transactions
-const clients = await Promise.all(applications.map(appId=>{
-  return algokit.getAppClient(
-    {
-      resolveBy: 'id',
-      sender: voter,
-      app: JSON.stringify(appSpec),
-      id: appId,
-        
-    },
-    algod,
-  )
-}))
-
-// All Application Global States
-const globalStates = await Promise.all(clients.map(client=>client.getGlobalState()));
+//TODO:
 ```
 
 Voting Round's IPFS Metadata from the `xgov-api`
@@ -113,148 +79,14 @@ Submit a vote for a Voting Round by creating a transaction group composed of the
 ### ABI Vote Method
 
 ```javascript
-const voter /* algosdk.Account */ = {
-  addr: "<VOTER_WALLET>"
-}
-
-// Fetched States
-const appClient = clients[0]
-const globalState = globalStates[0]
-const ipfsMetadata = metadata[0]
-const snapshotResult = snapshots[0]
-const snapshot = snapshotResult.snapshot.find(ss=>{
-  // Find the voters snapshot
-  return ss.addess === voter.addr
-})
-
-const signatureByteArray = Buffer.from( snapshot.signature, "base64");
-const voteFee = algokit.microAlgos(1_000 + 16 /* opup - 16 (max possible) */ * 1_000);
-const questionIndexes = ipfsMetadata.questions.map(q=>0)
-const weightings = ipfsMetadata.questions.map(q=>0);
-const weighting = snapshot.weight
-
-// ABI Method Arguments
-const args = [
-  // PaymentTxn
-  appClient.fundAppAccount({
-    amount: algokit.microAlgos(400 * /* key size */ (32 + /* value size */ 2 + questionIndexes.length * 1) + 2500),
-    sendParams: { skipSending: true }
-  }),
-  signatureByteArray,
-  weighting,
-  questionIndexes,
-  globalState["vote_type"].value === Number(VoteType.PARTITIONED_WEIGHTING) ? weightings : [],
-  globalState["ouaid"]?.value || 0
-];
-
-// Compile the Transactions
-const txn = await appClient.call({
-  method: "vote",
-  methodArgs: args,
-  boxes: ['V', voter],
-  sendParams:{
-    skipSending: true,
-    fee: voteFee
-  }
-});
-
-console.log(txn.transactions);
+//TODO
 ```
 
 
 # Full Example
 
 ```javascript
-require('dotenv').config();
-const appSpec = require('./<path_to_artifacts>/application.json')
-const algokit = require('@algorandfoundation/algokit-utils')
-
-const api = `https://api.voting.algorand.foundation/ipfs/`
-const algod = algokit.getAlgoClient()
-const indexer = algokit.getAlgoIndexerClient();
-
-const creatorAddress = 'C3DQJVL6ZVGL6MZ6JBDBEKYEXRV5NCPZYJUJ3BLRDK6V7ETKYC6NO6HOPA'
-const applications = await indexer.lookupAccountCreatedApplications(creatorAddress).do().then(r=>{
-  return  r.applications.map(app=>app.id)
-})
-
-
-const voter = await algokit.getAccount(
-  { config: algokit.getAccountConfigFromEnvironment("VOTER"), fundWith: algokit.algos(3000) },
-  algod
-);
-
-const clients = await Promise.all(applications.map(appId=>{
-  return algokit.getAppClient(
-    {
-      resolveBy: 'id',
-      sender: voter,
-      app: JSON.stringify(appSpec),
-      id: appId,
-
-    },
-    algod,
-  )
-}))
-
-
-const globalStates = await Promise.all(clients.map(client=>client.getGlobalState()));
-
-const metadata = await Promise.all(globalStates.map(async (globalState)=>{
-  const cid = globalState.metadata_ipfs_cid.value
-  const url = `${api}${cid}`
-  return fetch(url).then(r=>r.json())
-}))
-
-
-const snapshots = await Promise.all(metadata.map(meta=>{
-  const cid = meta.voteGatingSnapshotCid
-  const url = `${api}${cid}`
-  return fetch(url).then(r=>r.json())
-}))
-
-
-const appClient = clients[0]
-const globalState = globalStates[0]
-const ipfsMetadata = metadata[0]
-const snapshotResult = snapshots[0]
-const snapshot = snapshotResult.snapshot.find(ss=>{
-  return ss.address === voter.addr
-})
-
-const signatureByteArray = Buffer.from( snapshot.signature, "base64");
-const voteFee = algokit.microAlgos(1_000 + 16 /* opup - 16 (max possible) */ * 1_000);
-const questionIndexes = ipfsMetadata.questions.map(q=>0)
-const weightings = ipfsMetadata.questions.map(q=>0);
-// Set weights on votes
-weightings[0] = snapshot.weight
-
-// ABI Method Arguments
-const args = [
-  // PaymentTxn
-  appClient.fundAppAccount({
-    amount: algokit.microAlgos(400 * /* key size */ (32 + /* value size */ 2 + questionIndexes.length * 1) + 2500),
-    sendParams: { skipSending: true }
-  }),
-  signatureByteArray,
-  snapshot.weight,
-  questionIndexes,
-  globalState["vote_type"].value === Number(VoteType.PARTITIONED_WEIGHTING) ? weightings : [],
-  globalState["ouaid"]?.value || 0
-];
-
-// Compile the Transactions
-const txn = await appClient.call({
-  method: "vote",
-  methodArgs: args,
-  boxes: ['V', voter],
-  sendParams:{
-    skipSending: true,
-    fee: voteFee
-  }
-});
-
-console.log(txn.transactions);
+// TODO
 
 ```
 
